@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    
+<style type="text/css">
+
+  html {
+  margin:0;
+  padding:0;
+  }
+
+  #canvas {
+    display: flex;
+    justify-content: center;
+    margin: auto;
+  }
+
+  #canvasDiv{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    height: 100vh;
+    align-self: stretch; 
+  }
+  
+  </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.9.0/p5.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.9.0/addons/p5.dom.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.9.0/addons/p5.sound.min.js"></script>
+    <title>Blurry No More</title>
+    
+
+  </head>
+  <body>
+
+    <script>
+      let cam;
+      // const GRIDSIZE = 15;
+      let gridsize = 15;
+      function preload()
+      {
+        vid = createVideo("Trash_compressed.mp4");
+        vid.size(100, 100);
+        vid.volume(0);
+        vid.loop();
+        vid.hide(); // hides the html video loader
+      }
+      function setup() {
+        var canvas = createCanvas(400, 400);
+        canvas.parent("canvas");
+        pixelDensity(1);
+        noStroke();
+        
+        // cam = createCapture(VIDEO);
+        // cam.hide();
+      }
+      
+          mic = new p5.AudioIn();
+      
+        // start the Audio Input.
+        // By default, it does not .connect() (to the computer speakers)
+        mic.start();
+      
+      
+      function draw() {
+        
+        let vol = mic.getLevel();
+        console.log(vol)
+      
+        // Draw an ellipse with height based on volume
+        // change blurness by blur filter
+        let blurValue = map(vol, 0, 0.88, 10, 0);
+        
+         console.log(blurValue)
+        // image(cam, 0, 0);
+        
+        image(vid, 0, 0);
+        
+        // change blurness by gridsize
+      //   gridsize = map(vol, 0, 1, 100, 3);
+      
+      //   cam.loadPixels();
+      //   for(let x = 0; x<cam.width; x+=gridsize){
+      //   for(let y = 0; y<cam.height; y +=gridsize){
+      //      let colorFromVideo = cam.get(x,y); 
+      //      fill (colorFromVideo);  
+      //      rect (x, y, gridsize, gridsize);
+      //     }
+      //   
+        filter(BLUR, blurValue);
+        // console.log(cam.get(0,0));
+      
+      }
+      const timeout1 = setTimeout(()=>{
+          window.open("./Scream_Morph.html", "_blank","width=480","height=480");
+        },10000);
+          </script>
+    <div id="canvasDiv">
+      <div id = "canvas">
+      
+      </div>
+  </div>
+    
+  </body>
+</html>
